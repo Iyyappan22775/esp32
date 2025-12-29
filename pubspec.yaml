@@ -1,0 +1,45 @@
+name: technobot_pro
+description: Technobot Pro - Advanced Robotic Control
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.0 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.1.0
+  webview_flutter: ^4.4.2
+  video_player: ^2.8.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/
+    - assets/index.html
+    - assets/action.html
+    - assets/models.html
+    - assets/styles.css
+    - assets/action-styles.css
+    - assets/models-styles.css
+    - assets/script.js
+    - assets/action-script.js
+    - assets/models-script.js
+    - assets/LOGO.JPG
+    - assets/LogoFinal.PNG
+    - assets/splash_video.mp4
+
+flutter_launcher_icons:
+  android: true
+  ios: false
+  image_path: "LOGO.JPG"
+  adaptive_icon_background: "#000000"
+  adaptive_icon_foreground: "LOGO.JPG"

@@ -1,0 +1,310 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Disable text selection and long-press */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    /* Remove blue focus/tap highlight */
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+/* Remove all focus, active, and selection highlights */
+*:focus,
+*:active,
+*:hover {
+    outline: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+}
+
+button:focus,
+button:active,
+select:focus,
+select:active,
+input:focus,
+input:active {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #000000;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.app {
+    max-width: 480px;
+    margin: 0 auto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #000000;
+    overflow: hidden;
+}
+
+/* Status Bar - Same as other pages */
+.status-bar {
+    background: #000000;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo {
+    width: 36px;
+    height: 36px;
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.logo-name {
+    height: 28px;
+}
+
+.logo-name img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+.status-icons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.battery-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.battery-indicator svg {
+    width: 36px;
+    height: 36px;
+}
+
+.battery-percentage {
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+}
+
+.wifi-indicator svg {
+    width: 36px;
+    height: 36px;
+}
+
+.wifi-indicator svg path {
+    stroke: white !important;
+}
+
+.wifi-indicator svg circle {
+    fill: white !important;
+}
+
+/* Removed blinking animation */
+
+.wifi-indicator.disconnected svg path {
+    stroke: #FF0000 !important;
+}
+
+.wifi-indicator.disconnected svg circle {
+    fill: #FF0000 !important;
+}
+
+.refresh-btn {
+    background: #00D98F;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    color: #000000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(0, 217, 143, 0.4);
+}
+
+.refresh-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.refresh-btn:hover {
+    background: #00E89F;
+    transform: rotate(180deg);
+}
+
+.refresh-btn:active {
+    transform: scale(0.95);
+}
+
+/* Content */
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 20px 8px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Models List */
+.models-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Model Card */
+.model-card {
+    background: #2A2F4A;
+    border-radius: 12px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.model-card:hover {
+    background: #323854;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.model-card:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.card-content {
+    width: 100%;
+}
+
+.model-title {
+    font-size: 13px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 4px;
+}
+
+.model-description {
+    font-size: 9px;
+    line-height: 1.4;
+    color: #B8BCC8;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+    background: #2A2F4A;
+    height: 65px;
+    border-radius: 24px 24px 0 0;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #808080;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 8px 20px;
+    border-radius: 12px;
+}
+
+.nav-item span {
+    font-size: 11px;
+}
+
+.nav-item svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-item.active {
+    color: #00D9FF;
+    background: rgba(0, 217, 255, 0.1);
+}
+
+.nav-item.active span {
+    font-weight: bold;
+}
+
+
+
+
+
+/* Scrollbar styling */
+.content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.content::-webkit-scrollbar-thumb {
+    background: rgba(0, 217, 255, 0.3);
+    border-radius: 3px;
+}
+
+.content::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 217, 255, 0.5);
+}
+
+
+/* Chain Link Animation */
+.connection-indicator .chain-connected rect:first-child {
+    animation: chainConnect 0.6s ease-in-out forwards;
+}
+
+.connection-indicator .chain-connected rect:last-child {
+    animation: chainConnect2 0.6s ease-in-out forwards;
+}
+
+@keyframes chainConnect {
+    0% {
+        transform: translateY(-3px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes chainConnect2 {
+    0% {
+        transform: translateY(3px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}

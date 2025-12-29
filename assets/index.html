@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Control UI</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Splash Screen Styles */
+        .splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease-out;
+            visibility: visible;
+        }
+
+        .splash-screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+
+        .splash-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div class="splash-screen" id="splashScreen">
+        <video class="splash-video" id="splashVideo" autoplay muted playsinline>
+            <source src="splash_video.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="app">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="LOGO.JPG" alt="Logo">
+                </div>
+                <div class="logo-name">
+                    <img src="LogoFinal.PNG" alt="Technovation" onerror="this.style.display='none'">
+                </div>
+            </div>
+            
+            <div class="status-icons">
+                <div class="battery-indicator">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="11" width="20" height="10" rx="2" stroke="white" stroke-width="1.5"/>
+                        <rect x="25" y="14" width="2" height="4" rx="1" fill="white"/>
+                        <rect x="7" y="13" width="4" height="6" fill="white"/>
+                        <rect x="12" y="13" width="4" height="6" fill="white"/>
+                        <rect x="17" y="13" width="4" height="6" fill="white"/>
+                    </svg>
+                    <span class="battery-percentage" id="batteryPercentage">85%</span>
+                </div>
+                
+                <div class="connection-indicator" id="connectionIcon" title="Not Connected">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- WiFi Connected - Green -->
+                        <g class="wifi-connected" style="display: none;">
+                            <circle cx="12" cy="20" r="1.5" fill="#00D98F"/>
+                            <path d="M8.5 16.5C9.5 15.5 10.7 15 12 15C13.3 15 14.5 15.5 15.5 16.5" stroke="#00D98F" stroke-width="2" stroke-linecap="round" fill="none"/>
+                            <path d="M5.5 13.5C7.2 11.8 9.5 11 12 11C14.5 11 16.8 11.8 18.5 13.5" stroke="#00D98F" stroke-width="2" stroke-linecap="round" fill="none"/>
+                            <path d="M2.5 10.5C5 8 8.3 6.5 12 6.5C15.7 6.5 19 8 21.5 10.5" stroke="#00D98F" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        </g>
+                        <!-- WiFi Disconnected - White -->
+                        <g class="wifi-disconnected">
+                            <circle cx="12" cy="20" r="1.5" fill="#FFFFFF"/>
+                            <path d="M8.5 16.5C9.5 15.5 10.7 15 12 15C13.3 15 14.5 15.5 15.5 16.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+                            <path d="M5.5 13.5C7.2 11.8 9.5 11 12 11C14.5 11 16.8 11.8 18.5 13.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+                            <path d="M2.5 10.5C5 8 8.3 6.5 12 6.5C15.7 6.5 19 8 21.5 10.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <button class="refresh-btn" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Eyes Selector -->
+            <div class="eyes-selector">
+                <button class="eye-tab active" data-eye="1">Eyes 1</button>
+                <button class="eye-tab" data-eye="2">Eyes 2</button>
+                <button class="eye-tab" data-eye="3">Eyes 3</button>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="mode-action-container">
+                <div class="custom-dropdown" data-mode="1">
+                    <label>Mode 1</label>
+                    <div class="dropdown-selected" data-value="A">Dancing</div>
+                    <div class="dropdown-options">
+                        <div class="dropdown-option" data-value="A">Dancing</div>
+                        <div class="dropdown-option" data-value="B">Handshaking</div>
+                        <div class="dropdown-option" data-value="C">Salute</div>
+                    </div>
+                </div>
+                
+                <div class="custom-dropdown" data-mode="2">
+                    <label>Mode 2</label>
+                    <div class="dropdown-selected" data-value="A">Circle Movement</div>
+                    <div class="dropdown-options">
+                        <div class="dropdown-option" data-value="A">Circle Movement</div>
+                        <div class="dropdown-option" data-value="B">Zig-zag Movement</div>
+                        <div class="dropdown-option" data-value="C">Stop & Blink</div>
+                    </div>
+                </div>
+                
+                <div class="custom-dropdown" data-mode="3">
+                    <label>Mode 3</label>
+                    <div class="dropdown-selected" data-value="A">Fast Wave</div>
+                    <div class="dropdown-options">
+                        <div class="dropdown-option" data-value="A">Fast Wave</div>
+                        <div class="dropdown-option" data-value="B">Slow Wave</div>
+                        <div class="dropdown-option" data-value="C">Greeting "Vanakkam"</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Direction Pad -->
+            <div class="direction-pad-container">
+                <svg class="direction-pad" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <!-- Shadow filter for depth -->
+                        <filter id="outerShadow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+                            <feOffset dx="0" dy="6" result="offsetblur"/>
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.4"/>
+                            </feComponentTransfer>
+                            <feMerge>
+                                <feMergeNode/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        
+                        <!-- Glossy gradient for white segments -->
+                        <linearGradient id="glossyWhite" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#F5F5F5;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#E8E8E8;stop-opacity:1" />
+                        </linearGradient>
+                        
+                        <!-- Blue radial gradient for inner ring -->
+                        <radialGradient id="blueGradient" cx="40%" cy="35%">
+                            <stop offset="0%" style="stop-color:#6BB6E8;stop-opacity:1" />
+                            <stop offset="40%" style="stop-color:#4A9FD8;stop-opacity:1" />
+                            <stop offset="70%" style="stop-color:#2E7BC0;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#1A5A9A;stop-opacity:1" />
+                        </radialGradient>
+                        
+                        <!-- Inner shadow for segments -->
+                        <filter id="innerShadow">
+                            <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+                            <feOffset dx="0" dy="2" result="offsetblur"/>
+                            <feComponentTransfer>
+                                <feFuncA type="linear" slope="0.3"/>
+                            </feComponentTransfer>
+                        </filter>
+                        
+                        <!-- Circular mask for logo -->
+                        <clipPath id="circleClip">
+                            <circle cx="150" cy="150" r="75"/>
+                        </clipPath>
+                    </defs>
+                    
+                    <!-- Outer shadow circle -->
+                    <circle cx="150" cy="150" r="135" fill="rgba(0,0,0,0.3)" filter="url(#outerShadow)"/>
+                    
+                    <!-- Top segment -->
+                    <g class="segment-btn" data-dir="forward">
+                        <path d="M 150,20 
+                                 A 130,130 0 0,1 241.42,58.58
+                                 L 217.13,82.87
+                                 A 95,95 0 0,0 150,55
+                                 A 95,95 0 0,0 82.87,82.87
+                                 L 58.58,58.58
+                                 A 130,130 0 0,1 150,20 Z" 
+                              fill="url(#glossyWhite)" 
+                              stroke="#D0D0D0" 
+                              stroke-width="1.5"/>
+                        <!-- Arrow Up -->
+                        <polygon points="150,40 142,56 158,56" fill="#4A4A4A"/>
+                    </g>
+                    
+                    <!-- Right segment -->
+                    <g class="segment-btn" data-dir="right">
+                        <path d="M 280,150
+                                 A 130,130 0 0,1 241.42,241.42
+                                 L 217.13,217.13
+                                 A 95,95 0 0,0 245,150
+                                 A 95,95 0 0,0 217.13,82.87
+                                 L 241.42,58.58
+                                 A 130,130 0 0,1 280,150 Z" 
+                              fill="url(#glossyWhite)" 
+                              stroke="#D0D0D0" 
+                              stroke-width="1.5"/>
+                        <!-- Arrow Right -->
+                        <polygon points="260,150 244,142 244,158" fill="#4A4A4A"/>
+                    </g>
+                    
+                    <!-- Bottom segment -->
+                    <g class="segment-btn" data-dir="backward">
+                        <path d="M 150,280
+                                 A 130,130 0 0,1 58.58,241.42
+                                 L 82.87,217.13
+                                 A 95,95 0 0,0 150,245
+                                 A 95,95 0 0,0 217.13,217.13
+                                 L 241.42,241.42
+                                 A 130,130 0 0,1 150,280 Z" 
+                              fill="url(#glossyWhite)" 
+                              stroke="#D0D0D0" 
+                              stroke-width="1.5"/>
+                        <!-- Arrow Down -->
+                        <polygon points="150,260 142,244 158,244" fill="#4A4A4A"/>
+                    </g>
+                    
+                    <!-- Left segment -->
+                    <g class="segment-btn" data-dir="left">
+                        <path d="M 20,150
+                                 A 130,130 0 0,1 58.58,58.58
+                                 L 82.87,82.87
+                                 A 95,95 0 0,0 55,150
+                                 A 95,95 0 0,0 82.87,217.13
+                                 L 58.58,241.42
+                                 A 130,130 0 0,1 20,150 Z" 
+                              fill="url(#glossyWhite)" 
+                              stroke="#D0D0D0" 
+                              stroke-width="1.5"/>
+                        <!-- Arrow Left -->
+                        <polygon points="40,150 56,142 56,158" fill="#4A4A4A"/>
+                    </g>
+                    
+                    <!-- Black separation lines between buttons -->
+                    <!-- Top-Right diagonal line -->
+                    <line x1="217" y1="83" x2="241.42" y2="58.58" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+                    <!-- Bottom-Right diagonal line -->
+                    <line x1="217" y1="217" x2="241.42" y2="241.42" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+                    <!-- Bottom-Left diagonal line -->
+                    <line x1="83" y1="217" x2="58.58" y2="241.42" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+                    <!-- Top-Left diagonal line -->
+                    <line x1="83" y1="83" x2="58.58" y2="58.58" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+                    
+                    <!-- Logo image - circular clipped -->
+                    <image href="LOGO.JPG" x="75" y="75" width="150" height="150" 
+                           clip-path="url(#circleClip)"
+                           preserveAspectRatio="xMidYMid meet"/>
+                </svg>
+            </div>
+
+            <!-- Speed Slider -->
+            <div class="speed-slider">
+                <div class="slider-header">
+                    <span>Speed</span>
+                    <input type="range" id="speedRange" min="0" max="100" value="50">
+                    <span id="speedValue">100</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l-5.5 9h11z"/>
+                    <circle cx="17.5" cy="17.5" r="4.5"/>
+                    <circle cx="6.5" cy="17.5" r="4.5"/>
+                </svg>
+                <span>Motion</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='action.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+                </svg>
+                <span>Action</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='models.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <span>Models</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Video Splash Screen
+        const splashScreen = document.getElementById('splashScreen');
+        const splashVideo = document.getElementById('splashVideo');
+        const splashShown = sessionStorage.getItem('splashShown');
+        
+        if (splashShown === 'true') {
+            // If already shown, hide immediately
+            splashScreen.classList.add('hidden');
+        } else {
+            // First time - play video
+            sessionStorage.setItem('splashShown', 'true');
+            
+            // Hide splash when video ends
+            splashVideo.addEventListener('ended', function() {
+                splashScreen.classList.add('hidden');
+            });
+            
+            // Fallback: hide after 10 seconds if video doesn't end
+            setTimeout(() => {
+                splashScreen.classList.add('hidden');
+            }, 10000);
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

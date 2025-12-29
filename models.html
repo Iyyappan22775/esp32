@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models - Robotic Control</title>
+    <link rel="stylesheet" href="models-styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="LOGO.JPG" alt="Logo">
+                </div>
+                <div class="logo-name">
+                    <span style="color: white; font-size: 18px; font-weight: 600; letter-spacing: 0.5px;">Technovation</span>
+                </div>
+            </div>
+            
+            <div class="status-icons">
+                <div class="battery-indicator">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="11" width="20" height="10" rx="2" stroke="white" stroke-width="1.5"/>
+                        <rect x="25" y="14" width="2" height="4" rx="1" fill="white"/>
+                        <rect x="7" y="13" width="4" height="6" fill="white"/>
+                        <rect x="12" y="13" width="4" height="6" fill="white"/>
+                        <rect x="17" y="13" width="4" height="6" fill="white"/>
+                    </svg>
+                    <span class="battery-percentage" id="batteryPercentage">85%</span>
+                </div>
+                
+                <div class="connection-indicator" id="connectionIcon" title="Not Connected">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Connected - Animated chain links connecting -->
+                        <g class="chain-connected" style="display: none;" transform="rotate(30 16 16)">
+                            <!-- Top pill link -->
+                            <rect x="12" y="5" width="8" height="10" rx="4" stroke="#00D98F" stroke-width="2.5" fill="none"/>
+                            <!-- Bottom pill link -->
+                            <rect x="12" y="17" width="8" height="10" rx="4" stroke="#00D98F" stroke-width="2.5" fill="none"/>
+                        </g>
+                        <!-- Disconnected - Slanted chain link with gap -->
+                        <g class="chain-disconnected" transform="rotate(30 16 16)">
+                            <!-- Top pill link -->
+                            <rect x="12" y="4" width="8" height="10" rx="4" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+                            <!-- Bottom pill link with gap -->
+                            <rect x="12" y="18" width="8" height="10" rx="4" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <button class="refresh-btn" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Models List -->
+        <div class="content">
+            <div class="models-list">
+                <!-- Card 1: BEN -->
+                <div class="model-card" data-model="BEN">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 BEN – Advanced Semi-Humanoid Robot</h3>
+                        <p class="model-description">BEN is a 4-foot semi-humanoid robot designed for interactive greeting, STEAM education, and automation. It supports mobile-app controlled base movement, animated LED eyes, and multi-axis hand gestures. Integrated offline and online AI voice control enables Q&A interaction and action-based commands. Advanced capabilities include facial recognition, personalized greetings, and smart gesture modes. Ideal for schools, colleges, exhibitions, branding, and public engagement environments.</p>
+                    </div>
+                </div>
+
+                <!-- Card 2: CABI -->
+                <div class="model-card" data-model="CABI">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 CABI – Smart Service Robot</h3>
+                        <p class="model-description">CABI is a compact 3-foot service robot designed for greeting and light delivery applications. It features IoT-based movement, expressive LED eyes, and multilingual welcome audio. A built-in plate holder supports serving props or small items. Ideal for restaurants, receptions, events, and educational displays.</p>
+                    </div>
+                </div>
+
+                <!-- Card 3: GIYA -->
+                <div class="model-card" data-model="GIYA">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 GIYA – Smart Service Robot</h3>
+                        <p class="model-description">GIYA is a 4.5-foot semi-humanoid robot built for hospitality and customer engagement. It offers IoT-controlled movement, expressive LED eyes, and moveable hand interaction. Supports offline AI voice with multilingual greeting capability. Perfect for hotels, hospitals, exhibitions, and service environments.</p>
+                    </div>
+                </div>
+
+                <!-- Card 4: RIO -->
+                <div class="model-card" data-model="RIO">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 RIO – Humanoid Robot</h3>
+                        <p class="model-description">RIO is a full humanoid robot designed for realistic motion and intelligent interaction. It supports offline and online AI voice assistants with programmable gesture sequences. Advanced variants include face recognition, mouth-sync speech, and mobile base movement. Ideal for research labs, exhibitions, and advanced robotics education.</p>
+                    </div>
+                </div>
+
+                <!-- Card 5: ROY -->
+                <div class="model-card" data-model="ROY">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 ROY – AI Interaction Robot</h3>
+                        <p class="model-description">ROY is a 3.5-foot AI-powered semi-humanoid robot with fully offline voice control. It features expressive eye motion, dual arm gestures, and a 7-inch touchscreen display. All actions can be triggered via voice commands or mobile app. Best suited for AI research, innovation labs, and interactive demos.</p>
+                    </div>
+                </div>
+
+                <!-- Card 6: Smart Semi-Humanoid -->
+                <div class="model-card" data-model="Smart Semi-Humanoid">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 Smart Semi-Humanoid Robot</h3>
+                        <p class="model-description">This 4.5-foot semi-humanoid robot is designed for interactive reception and guest engagement. It supports app-controlled movement, expressive gestures, and multilingual greeting audio. Offline AI speech and LED eye animations enhance human-robot interaction. Ideal for institutions, showrooms, and public interaction zones.</p>
+                    </div>
+                </div>
+
+                <!-- Card 7: Food Delivery Robot -->
+                <div class="model-card" data-model="Food Delivery Robot">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 Food Delivery Robot</h3>
+                        <p class="model-description">This autonomous food delivery robot is designed for indoor service environments using ROS-based navigation. It uses a 360° LiDAR sensor for real-time mapping, obstacle avoidance, and precise path planning. The robot features three delivery trays and an integrated display for order and status information. Ideal for hotels, restaurants, hospitals, and smart campus delivery operations.</p>
+                    </div>
+                </div>
+
+                <!-- Card 8: Industrial Robot Arm -->
+                <div class="model-card" data-model="Industrial Robot Arm">
+                    <div class="card-content">
+                        <h3 class="model-title">🤖 Industrial Cooking & Pick-and-Place Robot Arm</h3>
+                        <p class="model-description">This robotic arm system is engineered for automated cooking and industrial handling tasks. It supports food frying operations as well as precise pick-and-place movements. The arm delivers high repeatability, smooth motion control, and programmable task sequences. Suitable for smart kitchens, food automation labs, and industrial process automation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='index.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l-5.5 9h11z"/>
+                    <circle cx="17.5" cy="17.5" r="4.5"/>
+                    <circle cx="6.5" cy="17.5" r="4.5"/>
+                </svg>
+                <span>Motion</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='action.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+                </svg>
+                <span>Action</span>
+            </button>
+            <button class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <span>Models</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="models-script.js"></script>
+</body>
+</html>

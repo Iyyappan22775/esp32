@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            padding: 20px;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .status {
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 10px;
+            background: #1a1a1a;
+        }
+        .success { background: #00ff00; color: #000; }
+        .error { background: #ff0000; color: #fff; }
+        button {
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: #00D9FF;
+            color: #000;
+            cursor: pointer;
+        }
+        button:active {
+            background: #00a0cc;
+        }
+        .log {
+            background: #1a1a1a;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>ESP32 Connection Test</h1>
+    
+    <div class="status" id="status">
+        Status: Not tested
+    </div>
+    
+    <button onclick="testConnection()">1. Test Connection</button>
+    <button onclick="testEyes1()">2. Test Eyes 1</button>
+    <button onclick="testMode1()">3. Test Mode 1</button>
+    <button onclick="testMove()">4. Test Move Forward</button>
+    <button onclick="clearLog()">Clear Log</button>
+    
+    <div class="log" id="log"></div>
+    
+    <script>
+        const ESP32_URL = 'http://192.168.4.1';
+        
+        function addLog(message) {
+            const log = document.getElementById('log');
+            const time = new Date().toLocaleTimeString();
+            log.innerHTML = `[${time}] ${message}<br>` + log.innerHTML;
+        }
+        
+        function clearLog() {
+            document.getElementById('log').innerHTML = '';
+        }
+        
+        async function testConnection() {
+            const status = document.getElementById('status');
+            status.className = 'status';
+            status.textContent = 'Testing...';
+            addLog('Testing connection to ' + ESP32_URL);
+            
+            try {
+                const response = await fetch(ESP32_URL + '/status', {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+                
+                status.className = 'status success';
+                status.textContent = '✓ Connected! Request sent successfully';
+                addLog('✓ SUCCESS: Connection working!');
+                addLog('Check Serial Monitor for "✓ STATUS CHECK"');
+            } catch (error) {
+                status.className = 'status error';
+                status.textContent = '✗ Connection Failed: ' + error.message;
+                addLog('✗ ERROR: ' + error.message);
+                addLog('Make sure phone is connected to ESP32_Robot WiFi');
+            }
+        }
+        
+        async function testEyes1() {
+            addLog('Sending Eyes 1 command...');
+            try {
+                await fetch(ESP32_URL + '/eyes1', {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+                addLog('✓ Eyes 1 command sent');
+                addLog('Check Serial Monitor for "✓ EYES 1 SELECTED"');
+            } catch (error) {
+                addLog('✗ ERROR: ' + error.message);
+            }
+        }
+        
+        async function testMode1() {
+            addLog('Sending Mode 1 command...');
+            try {
+                await fetch(ESP32_URL + '/mode1?value=A', {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+                addLog('✓ Mode 1 command sent');
+                addLog('Check Serial Monitor for "✓ MODE 1 - Value: A"');
+            } catch (error) {
+                addLog('✗ ERROR: ' + error.message);
+            }
+        }
+        
+        async function testMove() {
+            addLog('Sending Move Forward command...');
+            try {
+                await fetch(ESP32_URL + '/move?dir=forward', {
+                    method: 'GET',
+                    mode: 'no-cors'
+                });
+                addLog('✓ Move Forward command sent');
+                addLog('Check Serial Monitor for "✓ MOVE - Direction: forward"');
+            } catch (error) {
+                addLog('✗ ERROR: ' + error.message);
+            }
+        }
+        
+        // Auto-test on load
+        window.onload = function() {
+            addLog('Page loaded. Click "Test Connection" button.');
+            addLog('Make sure:');
+            addLog('1. Phone connected to ESP32_Robot WiFi');
+            addLog('2. ESP32 Serial Monitor open (115200 baud)');
+            addLog('3. Serial Monitor shows "READY TO RECEIVE COMMANDS"');
+        };
+    </script>
+</body>
+</html>

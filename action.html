@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action - Robotic Control</title>
+    <link rel="stylesheet" href="action-styles.css">
+</head>
+<body>
+    <div class="app">
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="LOGO.JPG" alt="Logo">
+                </div>
+                <div class="logo-name">
+                    <span style="color: white; font-size: 18px; font-weight: 600; letter-spacing: 0.5px;">Technovation</span>
+                </div>
+            </div>
+            
+            <div class="status-icons">
+                <div class="battery-indicator">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="5" y="11" width="20" height="10" rx="2" stroke="white" stroke-width="1.5"/>
+                        <rect x="25" y="14" width="2" height="4" rx="1" fill="white"/>
+                        <rect x="7" y="13" width="4" height="6" fill="white"/>
+                        <rect x="12" y="13" width="4" height="6" fill="white"/>
+                        <rect x="17" y="13" width="4" height="6" fill="white"/>
+                    </svg>
+                    <span class="battery-percentage" id="batteryPercentage">85%</span>
+                </div>
+                
+                <div class="connection-indicator" id="connectionIcon" title="Not Connected">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Connected - Animated chain links connecting -->
+                        <g class="chain-connected" style="display: none;" transform="rotate(30 16 16)">
+                            <!-- Top pill link -->
+                            <rect x="12" y="5" width="8" height="10" rx="4" stroke="#00D98F" stroke-width="2.5" fill="none"/>
+                            <!-- Bottom pill link -->
+                            <rect x="12" y="17" width="8" height="10" rx="4" stroke="#00D98F" stroke-width="2.5" fill="none"/>
+                        </g>
+                        <!-- Disconnected - Slanted chain link with gap -->
+                        <g class="chain-disconnected" transform="rotate(30 16 16)">
+                            <!-- Top pill link -->
+                            <rect x="12" y="4" width="8" height="10" rx="4" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+                            <!-- Bottom pill link with gap -->
+                            <rect x="12" y="18" width="8" height="10" rx="4" stroke="#FFFFFF" stroke-width="2.5" fill="none"/>
+                        </g>
+                    </svg>
+                </div>
+                
+                <button class="refresh-btn" id="refreshBtn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- Hand Selection Tabs -->
+            <div class="hand-selector">
+                <button class="hand-tab active" data-hand="left">Left Hand</button>
+                <button class="hand-tab" data-hand="right">Right Hand</button>
+                <button class="hand-tab" data-hand="both">L&R Hands</button>
+            </div>
+
+            <!-- Speed Control Bar with Action Buttons -->
+            <div class="speed-action-row">
+                <div class="speed-control-bar">
+                    <div class="speed-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="white">
+                            <path d="M20.38 8.57l-1.23 1.85a8 8 0 0 1-.22 7.58H5.07A8 8 0 0 1 15.58 6.85l1.85-1.23A10 10 0 0 0 3.35 19a2 2 0 0 0 1.72 1h13.85a2 2 0 0 0 1.74-1 10 10 0 0 0-.27-10.44z"/>
+                            <path d="M10.59 15.41a2 2 0 0 0 2.83 0l5.66-8.49-8.49 5.66a2 2 0 0 0 0 2.83z"/>
+                        </svg>
+                    </div>
+                    <input type="range" id="topSpeedRange" min="0" max="100" value="50">
+                    <span id="topSpeedValue">50</span>
+                </div>
+
+                <button class="action-btn" id="homeBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </button>
+                <button class="action-btn" id="previousBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                        <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/>
+                    </svg>
+                </button>
+                <button class="action-btn delete-btn" id="deleteBtn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Body Part Sliders -->
+            <div class="sliders-container">
+                <div class="slider-item">
+                    <span class="slider-label">Head</span>
+                    <input type="range" class="body-slider" data-part="head" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Lateral</span>
+                    <input type="range" class="body-slider" data-part="lateral" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Shoulder</span>
+                    <input type="range" class="body-slider" data-part="shoulder" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Forearm</span>
+                    <input type="range" class="body-slider" data-part="forearm" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Elbow</span>
+                    <input type="range" class="body-slider" data-part="elbow" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Wrist</span>
+                    <input type="range" class="body-slider" data-part="wrist" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+
+                <div class="slider-item">
+                    <span class="slider-label">Fingers</span>
+                    <input type="range" class="body-slider" data-part="fingers" min="0" max="2000" value="2000">
+                    <span class="slider-value">2000</span>
+                </div>
+            </div>
+
+            <!-- Save & Loop Buttons -->
+            <div class="bottom-actions">
+                <button class="save-btn" id="saveBtn">Save</button>
+                <button class="loop-btn" id="loopBtn">Start Loop</button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <button class="nav-item" onclick="window.location.href='index.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l-5.5 9h11z"/>
+                    <circle cx="17.5" cy="17.5" r="4.5"/>
+                    <circle cx="6.5" cy="17.5" r="4.5"/>
+                </svg>
+                <span>Motion</span>
+            </button>
+            <button class="nav-item active">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 11.75c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zm6 0c-.69 0-1.25.56-1.25 1.25s.56 1.25 1.25 1.25 1.25-.56 1.25-1.25-.56-1.25-1.25-1.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-.29.02-.58.05-.86 2.36-1.05 4.23-2.98 5.21-5.37C11.07 8.33 14.05 10 17.42 10c.78 0 1.53-.09 2.25-.26.21.71.33 1.47.33 2.26 0 4.41-3.59 8-8 8z"/>
+                </svg>
+                <span>Action</span>
+            </button>
+            <button class="nav-item" onclick="window.location.href='models.html'">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+                </svg>
+                <span>Models</span>
+            </button>
+        </div>
+    </div>
+
+    <script src="action-script.js"></script>
+</body>
+</html>
