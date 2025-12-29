@@ -8,7 +8,7 @@ class ESP8266Service {
   
   Timer? _moveTimer;
   
-Future<Map<String, dynamic>> checkConnection() async {
+Future<bool> checkConnection() async {
   try {
     final uri = Uri.parse('$baseUrl/status');
     print('Requesting: $uri');
@@ -17,46 +17,21 @@ Future<Map<String, dynamic>> checkConnection() async {
         .get(uri)
         .timeout(const Duration(seconds: 6));
 
-    print(' Status Code: ${response.statusCode}');
-    print(' Response Body: ${response.body}');
+    print('Status Code: ${response.statusCode}');
+    print('Response Body: ${response.body}');
 
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      try {
-        return json.decode(response.body);
-      } catch (jsonError) {
-        print(' JSON Decode Error: $jsonError');
-        return {
-          'connected': false,
-          'battery': 0,
-          'error': 'Invalid JSON'
-        };
-      }
-    }
-
-    return {
-      'connected': false,
-      'battery': 0,
-      'error': 'HTTP ${response.statusCode}'
-    };
+    return response.statusCode == 200;
 
   } on TimeoutException {
-    print(' Timeout: ESP not responding');
-    return {
-      'connected': false,
-      'battery': 0,
-      'error': 'Timeout'
-    };
+    print('Timeout: ESP not responding');
+    return false;
 
   } catch (e) {
-    print(' Connection Error: $e');
-    return {
-      'connected': false,
-      'battery': 0,
-      'error': e.toString()
-    };
+    print('Connection error: $e');
+    return false;
   }
 }
- 
+
   Future<void> setEyes(int eyeMode) async {
     try {
       await http.get(Uri.parse('$baseUrl/eyes$eyeMode'));
